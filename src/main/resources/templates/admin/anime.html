@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Management - AnimeSense Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="admin-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🎬 AnimeSense</h2>
+                <p>Admin Panel</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li>
+                    <a th:href="@{/admin/dashboard}">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/users}">
+                        <span class="icon">👥</span> Users
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/admin/anime}">
+                        <span class="icon">🎬</span> Anime
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/broadcast}">
+                        <span class="icon">📢</span> Broadcast
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/logout}" class="logout">
+                        <span class="icon">🚪</span> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Anime Management</h1>
+                <a th:href="@{/admin/anime/add}" class="btn btn-primary">➕ Add Anime</a>
+            </header>
+            
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <form th:action="@{/admin/anime}" method="get" class="search-form">
+                        <input type="text" name="search" placeholder="Search anime..." 
+                               th:value="${search}" class="search-input">
+                        <button type="submit" class="btn">🔍 Search</button>
+                    </form>
+                </div>
+                
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Rating</th>
+                                <th>Featured</th>
+                                <th>Boost</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="anime : ${animeList}">
+                                <td th:text="${anime.animeId}"></td>
+                                <td>
+                                    <div class="anime-title">
+                                        <strong th:text="${anime.title}"></strong>
+                                        <small th:if="${anime.genres}" th:text="${anime.genres}"></small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span th:if="${anime.rating}" th:text="${anime.rating}"></span>
+                                    <span th:unless="${anime.rating}">-</span>
+                                </td>
+                                <td>
+                                    <span th:if="${anime.featured}" class="badge badge-success">⭐ Yes</span>
+                                    <span th:unless="${anime.featured}" class="badge">No</span>
+                                </td>
+                                <td th:text="${anime.adminBoost} + 'x'"></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a th:href="@{/admin/anime/{id}/edit(id=${anime.animeId})}" 
+                                           class="btn btn-sm">✏️ Edit</a>
+                                        <form th:action="@{/admin/anime/{id}/delete(id=${anime.animeId})}" 
+                                              method="post" style="display: inline;"
+                                              onsubmit="return confirm('Delete this anime?');">
+                                            <button type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

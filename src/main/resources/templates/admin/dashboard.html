@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AnimeSense Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="admin-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🎬 AnimeSense</h2>
+                <p>Admin Panel</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a th:href="@{/admin/dashboard}">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/users}">
+                        <span class="icon">👥</span> Users
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/anime}">
+                        <span class="icon">🎬</span> Anime
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/broadcast}">
+                        <span class="icon">📢</span> Broadcast
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/logout}" class="logout">
+                        <span class="icon">🚪</span> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Dashboard</h1>
+            </header>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <h3 th:text="${totalUsers}">0</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-content">
+                        <h3 th:text="${activeUsers7d}">0</h3>
+                        <p>Active (7 days)</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <h3 th:text="${activeUsers30d}">0</h3>
+                        <p>Active (30 days)</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🎬</div>
+                    <div class="stat-content">
+                        <h3 th:text="${totalAnime}">0</h3>
+                        <p>Total Anime</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recent Users</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="user : ${recentUsers}">
+                                    <td th:text="${user.userId}"></td>
+                                    <td>
+                                        <a th:href="@{/admin/users/{id}(id=${user.userId})}" 
+                                           th:text="${user.firstName != null ? user.firstName : user.username}">
+                                        </a>
+                                    </td>
+                                    <td th:text="${#temporals.format(user.lastActive, 'yyyy-MM-dd HH:mm')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Featured Anime</h2>
+                        <a th:href="@{/admin/anime}" class="btn btn-sm">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${featuredAnime.isEmpty()}">
+                            <p class="text-muted">No featured anime yet</p>
+                        </div>
+                        <div th:if="${!featuredAnime.isEmpty()}">
+                            <ul class="anime-list">
+                                <li th:each="anime : ${featuredAnime}">
+                                    <a th:href="@{/admin/anime/{id}/edit(id=${anime.animeId})}" 
+                                       th:text="${anime.title}">
+                                    </a>
+                                    <span class="badge" th:text="'⭐ ' + ${anime.rating}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

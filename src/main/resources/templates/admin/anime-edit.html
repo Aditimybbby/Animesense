@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Anime - AnimeSense Admin</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="admin-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🎬 AnimeSense</h2>
+                <p>Admin Panel</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li>
+                    <a th:href="@{/admin/dashboard}">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/users}">
+                        <span class="icon">👥</span> Users
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/admin/anime}">
+                        <span class="icon">🎬</span> Anime
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/broadcast}">
+                        <span class="icon">📢</span> Broadcast
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/logout}" class="logout">
+                        <span class="icon">🚪</span> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Edit Anime</h1>
+                <a th:href="@{/admin/anime}" class="btn">← Back</a>
+            </header>
+            
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Anime Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="anime-detail">
+                            <img th:if="${anime.imageUrl}" th:src="${anime.imageUrl}" alt="Anime cover" class="anime-image">
+                            <h3 th:text="${anime.title}"></h3>
+                            <p th:if="${anime.titleEnglish}" th:text="'(' + ${anime.titleEnglish} + ')'"></p>
+                            
+                            <div class="info-row">
+                                <span class="label">MAL ID:</span>
+                                <span th:text="${anime.animeId}"></span>
+                            </div>
+                            
+                            <div class="info-row">
+                                <span class="label">Rating:</span>
+                                <span th:text="${anime.rating} + '/10'"></span>
+                            </div>
+                            
+                            <div class="info-row">
+                                <span class="label">Episodes:</span>
+                                <span th:text="${anime.episodes}"></span>
+                            </div>
+                            
+                            <div class="info-row">
+                                <span class="label">Genres:</span>
+                                <span th:text="${anime.genres}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recommendation Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/anime/{id}/edit(id=${anime.animeId})}" method="post">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="featured" 
+                                           th:checked="${anime.featured}">
+                                    ⭐ Featured Anime (1.5x boost)
+                                </label>
+                                <small>Featured anime appear more often in recommendations</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="adminBoost">Admin Boost Multiplier</label>
+                                <input type="number" id="adminBoost" name="adminBoost" 
+                                       step="0.1" min="0.1" max="5.0"
+                                       th:value="${anime.adminBoost}">
+                                <small>Multiplier for recommendation score (0.1 - 5.0)</small>
+                            </div>
+                            
+                            <div class="boost-preview">
+                                <h4>Current Impact:</h4>
+                                <p>
+                                    Base boost: <strong th:text="${anime.adminBoost} + 'x'"></strong><br>
+                                    <span th:if="${anime.featured}">
+                                        Featured bonus: <strong>1.5x</strong><br>
+                                        <strong>Total: <span th:text="${anime.adminBoost * 1.5} + 'x'"></span></strong>
+                                    </span>
+                                    <span th:unless="${anime.featured}">
+                                        Total: <strong th:text="${anime.adminBoost} + 'x'"></strong>
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
