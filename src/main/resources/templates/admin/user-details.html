@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Details — AnimeSense Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="as-layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-logo">
+        <div class="sb-brand-icon">🎬</div>
+        <div class="sb-brand-name">AnimeSense</div>
+      </div>
+      <div class="sb-brand-sub">Admin Panel</div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <a th:href="@{/admin/dashboard}" class="sb-link"><span class="sb-link-icon">⊞</span> Dashboard</a>
+      <a th:href="@{/admin/users}" class="sb-link active"><span class="sb-link-icon">👥</span> Users</a>
+      <a th:href="@{/admin/anime}" class="sb-link"><span class="sb-link-icon">🎌</span> Anime</a>
+      <div class="sb-section-label">Tools</div>
+      <a th:href="@{/admin/broadcast}" class="sb-link"><span class="sb-link-icon">📡</span> Broadcast<span class="sb-badge">LIVE</span></a>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-user-avatar">A</div>
+        <div><div class="sb-user-name">Admin</div><div class="sb-user-role">SUPER ADMIN</div></div>
+      </div>
+      <a th:href="@{/admin/logout}" class="sb-logout">⏻ &nbsp;Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">USER DETAILS</span>
+      <div class="topbar-right">
+        <a th:href="@{/admin/users}" class="btn btn-ghost btn-sm">← Back to Users</a>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-header anim-in">
+        <div class="page-header-left">
+          <h1 th:text="${user.firstName != null ? user.firstName : user.username}">User</h1>
+          <p th:text="'User ID #' + ${user.userId}">—</p>
+        </div>
+      </div>
+
+      <div class="panel-grid-2">
+
+        <!-- Info card -->
+        <div class="panel anim-in anim-d1">
+          <div class="panel-head"><span class="panel-title">User Information</span></div>
+          <div class="panel-body">
+            <ul class="info-list">
+              <li>
+                <span class="info-key">User ID</span>
+                <span class="info-val td-id" th:text="'#' + ${user.userId}">—</span>
+              </li>
+              <li>
+                <span class="info-key">Name</span>
+                <span class="info-val" th:text="${user.firstName}">—</span>
+              </li>
+              <li>
+                <span class="info-key">Username</span>
+                <span class="info-val" style="color:var(--tx-muted);"
+                      th:text="${user.username != null ? '@' + user.username : 'N/A'}">—</span>
+              </li>
+              <li>
+                <span class="info-key">Admin</span>
+                <span th:if="${user.admin}" class="badge badge-success">✅ Yes</span>
+                <span th:unless="${user.admin}" class="badge badge-ghost">No</span>
+              </li>
+              <li>
+                <span class="info-key">Joined</span>
+                <span class="info-val" style="color:var(--tx-muted);font-size:12px;"
+                      th:text="${#temporals.format(user.createdAt,'yyyy-MM-dd HH:mm')}">—</span>
+              </li>
+              <li>
+                <span class="info-key">Last Active</span>
+                <span class="info-val" style="color:var(--tx-muted);font-size:12px;"
+                      th:text="${#temporals.format(user.lastActive,'yyyy-MM-dd HH:mm')}">—</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Stats card -->
+        <div class="panel anim-in anim-d2">
+          <div class="panel-head"><span class="panel-title">Statistics</span></div>
+          <div class="panel-body">
+            <ul class="info-list">
+              <li>
+                <span class="info-key">Total Anime</span>
+                <span class="info-val"
+                      style="font-family:var(--font-display);font-size:22px;color:var(--tx-ember);"
+                      th:text="${favorites.size()}">0</span>
+              </li>
+              <li>
+                <span class="info-key">Avg Rating</span>
+                <span class="info-val"
+                      style="font-family:var(--font-display);font-size:22px;color:var(--plasma);"
+                      th:text="${#numbers.formatDecimal(avgRating,1,1)} + '/10'">—</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Favorites table -->
+      <div class="panel anim-in anim-d3">
+        <div class="panel-head">
+          <span class="panel-title">Favourite Anime</span>
+          <span class="badge badge-ghost" th:text="${favorites.size()} + ' titles'">0 titles</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="as-table">
+            <thead>
+              <tr>
+                <th>Anime</th>
+                <th>Status</th>
+                <th>User Rating</th>
+                <th>Added</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="fav : ${favorites}">
+                <td>
+                  <div>
+                    <div style="font-weight:600;font-size:13px;" th:text="${fav.anime.title}">—</div>
+                    <div style="font-size:11px;color:var(--tx-muted);" th:if="${fav.anime.genres}"
+                         th:text="${fav.anime.genres}">—</div>
+                  </div>
+                </td>
+                <td><span class="badge badge-info" th:text="${fav.status.displayName}">—</span></td>
+                <td>
+                  <span th:if="${fav.userRating}"
+                        style="font-family:var(--font-mono);font-size:12px;color:var(--plasma);"
+                        th:text="${fav.userRating} + '/10'">—</span>
+                  <span th:unless="${fav.userRating}" style="color:var(--tx-muted);">—</span>
+                </td>
+                <td style="color:var(--tx-muted);font-size:12px;"
+                    th:text="${#temporals.format(fav.addedAt,'yyyy-MM-dd')}">—</td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(favorites)}">
+                <td colspan="4" style="color:var(--tx-muted);text-align:center;padding:24px;">No favourites yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

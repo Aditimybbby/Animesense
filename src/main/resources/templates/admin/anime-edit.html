@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Anime — AnimeSense Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="as-layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-logo">
+        <div class="sb-brand-icon">🎬</div>
+        <div class="sb-brand-name">AnimeSense</div>
+      </div>
+      <div class="sb-brand-sub">Admin Panel</div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <a th:href="@{/admin/dashboard}" class="sb-link"><span class="sb-link-icon">⊞</span> Dashboard</a>
+      <a th:href="@{/admin/users}" class="sb-link"><span class="sb-link-icon">👥</span> Users</a>
+      <a th:href="@{/admin/anime}" class="sb-link active"><span class="sb-link-icon">🎌</span> Anime</a>
+      <div class="sb-section-label">Tools</div>
+      <a th:href="@{/admin/broadcast}" class="sb-link"><span class="sb-link-icon">📡</span> Broadcast<span class="sb-badge">LIVE</span></a>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-user-avatar">A</div>
+        <div><div class="sb-user-name">Admin</div><div class="sb-user-role">SUPER ADMIN</div></div>
+      </div>
+      <a th:href="@{/admin/logout}" class="sb-logout">⏻ &nbsp;Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">EDIT ANIME</span>
+      <div class="topbar-right">
+        <a th:href="@{/admin/anime}" class="btn btn-ghost btn-sm">← Back to Anime</a>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-header anim-in">
+        <div class="page-header-left">
+          <h1 th:text="${anime.title}">Anime Title</h1>
+          <p th:text="'MAL ID: ' + ${anime.animeId}">—</p>
+        </div>
+      </div>
+
+      <div th:if="${success}" class="alert alert-success anim-in" th:text="${success}"></div>
+      <div th:if="${error}"   class="alert alert-error anim-in"   th:text="${error}"></div>
+
+      <div class="panel-grid-2">
+
+        <!-- Info panel -->
+        <div class="panel anim-in anim-d1">
+          <div class="panel-head"><span class="panel-title">Anime Details</span></div>
+          <div class="panel-body">
+
+            <!-- Cover image -->
+            <div th:if="${anime.imageUrl}"
+                 style="text-align:center;margin-bottom:20px;">
+              <img th:src="${anime.imageUrl}" alt="Cover"
+                   style="max-width:140px;border-radius:8px;border:1px solid var(--bd-default);">
+            </div>
+
+            <ul class="info-list">
+              <li>
+                <span class="info-key">Title (JP)</span>
+                <span class="info-val" th:text="${anime.title}">—</span>
+              </li>
+              <li th:if="${anime.titleEnglish}">
+                <span class="info-key">Title (EN)</span>
+                <span class="info-val" th:text="${anime.titleEnglish}">—</span>
+              </li>
+              <li>
+                <span class="info-key">MAL ID</span>
+                <span class="info-val td-id" th:text="${anime.animeId}">—</span>
+              </li>
+              <li>
+                <span class="info-key">Rating</span>
+                <span class="info-val"
+                      style="font-family:var(--font-mono);color:var(--plasma);"
+                      th:text="${anime.rating} + '/10'">—</span>
+              </li>
+              <li>
+                <span class="info-key">Episodes</span>
+                <span class="info-val" th:text="${anime.episodes}">—</span>
+              </li>
+              <li th:if="${anime.genres}">
+                <span class="info-key">Genres</span>
+                <span class="info-val" style="font-size:12px;color:var(--tx-muted);"
+                      th:text="${anime.genres}">—</span>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <!-- Settings panel -->
+        <div class="panel anim-in anim-d2">
+          <div class="panel-head"><span class="panel-title">Recommendation Settings</span></div>
+          <div class="panel-body">
+            <form th:action="@{/admin/anime/{id}/edit(id=${anime.animeId})}" method="post">
+
+              <div class="form-group">
+                <label class="form-check">
+                  <input type="checkbox" name="featured" th:checked="${anime.featured}">
+                  <span class="form-check-label">⭐ Mark as Featured  <span style="color:var(--tx-muted);font-weight:400;">(1.5× boost)</span></span>
+                </label>
+                <p class="form-hint" style="margin-top:8px;">Featured anime appear more often in recommendations.</p>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="adminBoost">Admin Boost Multiplier</label>
+                <input class="form-input" type="number" id="adminBoost" name="adminBoost"
+                       step="0.1" min="0.1" max="5.0" th:value="${anime.adminBoost}">
+                <p class="form-hint">Score multiplier — range 0.1 to 5.0</p>
+              </div>
+
+              <!-- Live preview -->
+              <div class="boost-preview">
+                <div class="boost-preview-label">CURRENT BOOST PREVIEW</div>
+                <div class="boost-preview-row">
+                  <span style="color:var(--tx-muted);">Admin boost</span>
+                  <span style="font-family:var(--font-mono);color:var(--tx-ember);"
+                        th:text="${anime.adminBoost} + 'x'">—</span>
+                </div>
+                <div class="boost-preview-row" th:if="${anime.featured}">
+                  <span style="color:var(--tx-muted);">Featured bonus</span>
+                  <span style="font-family:var(--font-mono);color:var(--plasma);">×1.5</span>
+                </div>
+                <div class="boost-preview-row" style="border-top:1px solid var(--bd-default);margin-top:8px;padding-top:8px;">
+                  <span style="font-weight:700;">Total multiplier</span>
+                  <span class="boost-preview-total"
+                        th:text="${anime.featured ? #numbers.formatDecimal(anime.adminBoost * 1.5, 1, 1) + 'x' : anime.adminBoost + 'x'}">—</span>
+                </div>
+              </div>
+
+              <div class="form-actions" style="margin-top:20px;">
+                <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                <a th:href="@{/admin/anime}" class="btn btn-ghost">Cancel</a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

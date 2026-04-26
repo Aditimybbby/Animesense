@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users — AnimeSense Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="as-layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-logo">
+        <div class="sb-brand-icon">🎬</div>
+        <div class="sb-brand-name">AnimeSense</div>
+      </div>
+      <div class="sb-brand-sub">Admin Panel</div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <a th:href="@{/admin/dashboard}" class="sb-link"><span class="sb-link-icon">⊞</span> Dashboard</a>
+      <a th:href="@{/admin/users}" class="sb-link active"><span class="sb-link-icon">👥</span> Users</a>
+      <a th:href="@{/admin/anime}" class="sb-link"><span class="sb-link-icon">🎌</span> Anime</a>
+      <div class="sb-section-label">Tools</div>
+      <a th:href="@{/admin/broadcast}" class="sb-link"><span class="sb-link-icon">📡</span> Broadcast<span class="sb-badge">LIVE</span></a>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-user-avatar">A</div>
+        <div><div class="sb-user-name">Admin</div><div class="sb-user-role">SUPER ADMIN</div></div>
+      </div>
+      <a th:href="@{/admin/logout}" class="sb-logout">⏻ &nbsp;Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">USERS</span>
+      <div class="topbar-right">
+        <div class="topbar-icon-btn">🔔<span class="topbar-notif-dot"></span></div>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-header anim-in">
+        <div class="page-header-left">
+          <h1>User Management</h1>
+          <p>All registered users and their activity</p>
+        </div>
+      </div>
+
+      <div class="panel anim-in anim-d1">
+        <div class="panel-head">
+          <span class="panel-title">All Users</span>
+          <span class="badge badge-ghost" th:text="${#lists.size(users)} + ' total'">0 total</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="as-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Favorites</th>
+                <th>Last Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="user : ${users}">
+                <td>
+                  <div class="td-user">
+                    <div class="td-avatar"
+                         style="background:rgba(255,107,0,0.15);color:var(--tx-ember);"
+                         th:text="${#strings.substring(user.firstName != null ? user.firstName : 'U', 0, 2).toUpperCase()}">?</div>
+                    <div>
+                      <div class="td-user-name" th:text="${user.firstName}">—</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="td-id" th:text="'#' + ${user.userId}">—</td>
+                <td style="color:var(--tx-muted);font-size:12px;"
+                    th:text="${user.username != null ? '@' + user.username : '—'}">—</td>
+                <td>
+                  <span class="badge badge-ember"
+                        th:text="${favoriteCounts.get(user.userId) != null ? favoriteCounts.get(user.userId) : 0}">0</span>
+                </td>
+                <td style="color:var(--tx-muted);font-size:12px;"
+                    th:text="${#temporals.format(user.lastActive,'yyyy-MM-dd HH:mm')}">—</td>
+                <td>
+                  <a th:href="@{/admin/users/{id}(id=${user.userId})}"
+                     class="btn btn-ghost btn-sm">View Details →</a>
+                </td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="6" style="color:var(--tx-muted);text-align:center;padding:32px;">No users found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

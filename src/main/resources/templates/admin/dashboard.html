@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — AnimeSense Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="as-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <nav class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-logo">
+        <div class="sb-brand-icon">🎬</div>
+        <div class="sb-brand-name">AnimeSense</div>
+      </div>
+      <div class="sb-brand-sub">Admin Panel</div>
+    </div>
+
+    <div class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <a th:href="@{/admin/dashboard}" class="sb-link active">
+        <span class="sb-link-icon">⊞</span> Dashboard
+      </a>
+      <a th:href="@{/admin/users}" class="sb-link">
+        <span class="sb-link-icon">👥</span> Users
+      </a>
+      <a th:href="@{/admin/anime}" class="sb-link">
+        <span class="sb-link-icon">🎌</span> Anime
+      </a>
+
+      <div class="sb-section-label">Tools</div>
+      <a th:href="@{/admin/broadcast}" class="sb-link">
+        <span class="sb-link-icon">📡</span> Broadcast
+        <span class="sb-badge">LIVE</span>
+      </a>
+    </div>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-user-avatar">A</div>
+        <div>
+          <div class="sb-user-name">Admin</div>
+          <div class="sb-user-role">SUPER ADMIN</div>
+        </div>
+      </div>
+      <a th:href="@{/admin/logout}" class="sb-logout">⏻ &nbsp;Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <div class="main-content">
+
+    <div class="topbar">
+      <span class="topbar-title">DASHBOARD</span>
+      <div class="topbar-right">
+        <div class="topbar-icon-btn" title="Notifications">
+          🔔<span class="topbar-notif-dot"></span>
+        </div>
+        <a th:href="@{/admin/anime/add}" class="btn btn-primary btn-sm">+ Add Anime</a>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- Stats row -->
+      <div class="stats-row">
+
+        <div class="stat-card anim-in anim-d1">
+          <div class="stat-card-glow orange"></div>
+          <div class="stat-top">
+            <div class="stat-icon-wrap orange">👥</div>
+            <span class="stat-pill up">+12%</span>
+          </div>
+          <div class="stat-num" th:text="${totalUsers}">0</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+
+        <div class="stat-card anim-in anim-d2">
+          <div class="stat-card-glow gold"></div>
+          <div class="stat-top">
+            <div class="stat-icon-wrap gold">✅</div>
+            <span class="stat-pill neu">7D</span>
+          </div>
+          <div class="stat-num" th:text="${activeUsers7d}">0</div>
+          <div class="stat-label">Active — 7 Days</div>
+        </div>
+
+        <div class="stat-card anim-in anim-d3">
+          <div class="stat-card-glow red"></div>
+          <div class="stat-top">
+            <div class="stat-icon-wrap red">📅</div>
+            <span class="stat-pill neu">30D</span>
+          </div>
+          <div class="stat-num" th:text="${activeUsers30d}">0</div>
+          <div class="stat-label">Active — 30 Days</div>
+        </div>
+
+        <div class="stat-card anim-in anim-d4">
+          <div class="stat-card-glow blue"></div>
+          <div class="stat-top">
+            <div class="stat-icon-wrap blue">🎬</div>
+            <span class="stat-pill up">+47</span>
+          </div>
+          <div class="stat-num" th:text="${totalAnime}">0</div>
+          <div class="stat-label">Total Anime</div>
+        </div>
+
+      </div>
+
+      <!-- Bottom grid -->
+      <div class="panel-grid-2">
+
+        <!-- Recent Users -->
+        <div class="panel anim-in anim-d5">
+          <div class="panel-head">
+            <span class="panel-title">Recent Users</span>
+            <a th:href="@{/admin/users}" class="btn btn-ghost btn-sm">View All →</a>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="as-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>ID</th>
+                  <th>Last Active</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="user : ${recentUsers}">
+                  <td>
+                    <div class="td-user">
+                      <div class="td-avatar"
+                           style="background:rgba(255,107,0,0.15);color:var(--tx-ember);"
+                           th:text="${#strings.substring(user.firstName != null ? user.firstName : user.username, 0, 2).toUpperCase()}">??</div>
+                      <div>
+                        <div class="td-user-name"
+                             th:text="${user.firstName != null ? user.firstName : user.username}">—</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="td-id" th:text="'#' + ${user.userId}">—</td>
+                  <td style="color:var(--tx-muted);font-size:12px;"
+                      th:text="${#temporals.format(user.lastActive,'yyyy-MM-dd HH:mm')}">—</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(recentUsers)}">
+                  <td colspan="3" style="color:var(--tx-muted);text-align:center;padding:24px;">No users yet</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Featured Anime -->
+        <div class="panel anim-in anim-d6">
+          <div class="panel-head">
+            <span class="panel-title">Featured Anime</span>
+            <a th:href="@{/admin/anime}" class="btn btn-ghost btn-sm">View All →</a>
+          </div>
+          <div class="panel-body">
+            <p th:if="${featuredAnime.isEmpty()}" style="color:var(--tx-muted);font-size:13px;text-align:center;padding:16px 0;">
+              No featured anime yet
+            </p>
+            <div th:unless="${featuredAnime.isEmpty()}">
+              <div th:each="anime : ${featuredAnime}"
+                   style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,100,0,0.06);">
+                <a th:href="@{/admin/anime/{id}/edit(id=${anime.animeId})}"
+                   style="font-size:13px;font-weight:600;color:var(--tx-primary);transition:color 0.2s;"
+                   th:text="${anime.title}">—</a>
+                <span class="badge badge-ember" th:text="'⭐ ' + ${anime.rating}">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /page-body -->
+  </div><!-- /main-content -->
+</div><!-- /as-layout -->
+</body>
+</html>
