@@ -4,14 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -22,6 +20,8 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/admin/login")
+                // Tells Spring Security to process the login form POST at this URL
+                .loginProcessingUrl("/admin/login")
                 .defaultSuccessUrl("/admin/dashboard", true)
                 .permitAll()
             )
@@ -36,13 +36,10 @@ public class SecurityConfig {
             .headers(headers -> headers
                 .frameOptions().sameOrigin()
             );
-        
+
         return http.build();
     }
     
-    @Bean
-    @SuppressWarnings("deprecation")
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+    // FIXED: The NoOpPasswordEncoder bean has been completely deleted.
+    // Spring Boot 3 will now correctly read the "{noop}" prefix from your UserConfig.
 }
