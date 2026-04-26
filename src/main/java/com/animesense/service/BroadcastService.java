@@ -33,12 +33,18 @@ public class BroadcastService {
         int sentCount = 0;
         int failedCount = 0;
         
+        // FIXED: Safely convert any accidental leftover Markdown asterisks to HTML bold tags
+        String safeMessage = message.replaceAll("\\*(.*?)\\*", "<b>$1</b>");
+        safeMessage = safeMessage.replaceAll("_(.*?)_", "<i>$1</i>");
+        
         for (User user : users) {
             try {
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.setChatId(user.getUserId());
-                sendMessage.setText("📢 *Announcement*\n\n" + message);
-                sendMessage.setParseMode("Markdown");
+                
+                // FIXED: Switched from Markdown to HTML to prevent crashes on unescaped characters
+                sendMessage.setText("📢 <b>Announcement</b>\n\n" + safeMessage);
+                sendMessage.setParseMode("HTML");
                 
                 bot.execute(sendMessage);
                 sentCount++;
