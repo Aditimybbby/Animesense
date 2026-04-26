@@ -7,54 +7,55 @@
   <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
+
+<div class="sakura-bg"></div>
+<div class="sakura-overlay"></div>
+
 <div class="as-layout">
 
-  <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="sb-brand">
-      <div class="sb-brand-logo">
-        <div class="sb-brand-icon">🎬</div>
-        <div class="sb-brand-name">AnimeSense</div>
+      <div class="sb-logo-row">
+        <div class="sb-icon">🎌</div>
+        <div class="sb-name">AnimeSense</div>
       </div>
-      <div class="sb-brand-sub">Admin Panel</div>
+      <div class="sb-sub">Admin Nexus</div>
     </div>
     <div class="sb-nav">
-      <div class="sb-section-label">Main</div>
-      <a th:href="@{/admin/dashboard}" class="sb-link"><span class="sb-link-icon">⊞</span> Dashboard</a>
-      <a th:href="@{/admin/users}" class="sb-link"><span class="sb-link-icon">👥</span> Users</a>
-      <a th:href="@{/admin/anime}" class="sb-link active"><span class="sb-link-icon">🎌</span> Anime</a>
-      <div class="sb-section-label">Tools</div>
-      <a th:href="@{/admin/broadcast}" class="sb-link"><span class="sb-link-icon">📡</span> Broadcast<span class="sb-badge">LIVE</span></a>
+      <div class="sb-label">Main</div>
+      <a th:href="@{/admin/dashboard}" class="sb-link"><span class="sb-icon-el">⊞</span> Dashboard</a>
+      <a th:href="@{/admin/users}" class="sb-link"><span class="sb-icon-el">👥</span> Users</a>
+      <a th:href="@{/admin/anime}" class="sb-link active"><span class="sb-icon-el">🎌</span> Anime</a>
+      <div class="sb-label">Tools</div>
+      <a th:href="@{/admin/broadcast}" class="sb-link"><span class="sb-icon-el">📡</span> Broadcast<span class="sb-pill">LIVE</span></a>
     </div>
     <div class="sb-footer">
       <div class="sb-user">
-        <div class="sb-user-avatar">A</div>
-        <div><div class="sb-user-name">Admin</div><div class="sb-user-role">SUPER ADMIN</div></div>
+        <div class="sb-avatar">A</div>
+        <div><div class="sb-uname">Admin</div><div class="sb-urole">Super Admin</div></div>
       </div>
       <a th:href="@{/admin/logout}" class="sb-logout">⏻ &nbsp;Sign Out</a>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <div class="main-content">
     <div class="topbar">
-      <span class="topbar-title">ADD ANIME</span>
+      <span class="topbar-title">Add Anime</span>
       <div class="topbar-right">
-        <a th:href="@{/admin/anime}" class="btn btn-ghost btn-sm">← Back to Anime</a>
+        <a th:href="@{/admin/anime}" class="btn btn-ghost btn-sm">← Back</a>
       </div>
     </div>
 
     <div class="page-body">
-      <div class="page-header anim-in">
-        <div class="page-header-left">
+      <div class="page-head anim-in">
+        <div>
           <h1>Add Anime</h1>
           <p>Import a title from MyAnimeList using its ID</p>
         </div>
       </div>
 
-      <div class="panel-grid-2" style="max-width:820px;">
+      <div class="panel-grid-2" style="max-width:780px;">
 
-        <!-- Form -->
         <div class="panel anim-in anim-d1">
           <div class="panel-head"><span class="panel-title">MAL Import</span></div>
           <div class="panel-body">
@@ -64,29 +65,27 @@
                 <input class="form-input" type="number" id="animeId" name="animeId"
                        required placeholder="e.g. 52991" autofocus>
                 <p class="form-hint">
-                  Find the number in the MAL URL:<br>
-                  myanimelist.net/anime/<strong style="color:var(--tx-ember);">52991</strong>/…
+                  myanimelist.net/anime/<strong style="color:var(--tx-sak);">52991</strong>/…
                 </p>
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Import Anime →</button>
+                <button type="submit" class="btn btn-primary">Import →</button>
                 <a th:href="@{/admin/anime}" class="btn btn-ghost">Cancel</a>
               </div>
             </form>
           </div>
         </div>
 
-        <!-- Help -->
         <div class="help-box anim-in anim-d2" style="align-self:start;">
-          <h3>HOW TO FIND ANIME IDs</h3>
+          <h3>How to Find Anime IDs</h3>
           <ol>
             <li>Go to <a href="https://myanimelist.net" target="_blank">myanimelist.net</a></li>
             <li>Search for the anime you want to add</li>
             <li>Open the anime page — copy the number from the URL</li>
             <li>Paste it above and click Import</li>
           </ol>
-          <p style="margin-top:14px;font-size:12px;color:var(--tx-muted);">
-            <strong>Example — Sousou no Frieren:</strong><br>
+          <p style="margin-top:12px;font-size:11px;color:var(--tx-muted);">
+            <strong style="color:var(--tx-body);">Example — Sousou no Frieren:</strong><br>
             <code>myanimelist.net/anime/52991/…</code>
           </p>
         </div>
@@ -95,5 +94,6 @@
     </div>
   </div>
 </div>
+
 </body>
 </html>

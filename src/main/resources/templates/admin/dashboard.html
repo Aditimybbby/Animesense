@@ -7,113 +7,175 @@
   <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
+
+<div class="sakura-bg"></div>
+<div class="sakura-overlay"></div>
+
 <div class="as-layout">
 
-  <!-- ── SIDEBAR ── -->
   <nav class="sidebar">
     <div class="sb-brand">
-      <div class="sb-brand-logo">
-        <div class="sb-brand-icon">🎬</div>
-        <div class="sb-brand-name">AnimeSense</div>
+      <div class="sb-logo-row">
+        <div class="sb-icon">🎌</div>
+        <div class="sb-name">AnimeSense</div>
       </div>
-      <div class="sb-brand-sub">Admin Panel</div>
+      <div class="sb-sub">Admin Nexus</div>
     </div>
-
     <div class="sb-nav">
-      <div class="sb-section-label">Main</div>
+      <div class="sb-label">Main</div>
       <a th:href="@{/admin/dashboard}" class="sb-link active">
-        <span class="sb-link-icon">⊞</span> Dashboard
+        <span class="sb-icon-el">⊞</span> Dashboard
       </a>
       <a th:href="@{/admin/users}" class="sb-link">
-        <span class="sb-link-icon">👥</span> Users
+        <span class="sb-icon-el">👥</span> Users
       </a>
       <a th:href="@{/admin/anime}" class="sb-link">
-        <span class="sb-link-icon">🎌</span> Anime
+        <span class="sb-icon-el">🎌</span> Anime
       </a>
-
-      <div class="sb-section-label">Tools</div>
+      <div class="sb-label">Tools</div>
       <a th:href="@{/admin/broadcast}" class="sb-link">
-        <span class="sb-link-icon">📡</span> Broadcast
-        <span class="sb-badge">LIVE</span>
+        <span class="sb-icon-el">📡</span> Broadcast
+        <span class="sb-pill">LIVE</span>
       </a>
     </div>
-
     <div class="sb-footer">
       <div class="sb-user">
-        <div class="sb-user-avatar">A</div>
+        <div class="sb-avatar">A</div>
         <div>
-          <div class="sb-user-name">Admin</div>
-          <div class="sb-user-role">SUPER ADMIN</div>
+          <div class="sb-uname">Admin</div>
+          <div class="sb-urole">Super Admin</div>
         </div>
       </div>
       <a th:href="@{/admin/logout}" class="sb-logout">⏻ &nbsp;Sign Out</a>
     </div>
   </nav>
 
-  <!-- ── MAIN ── -->
   <div class="main-content">
 
     <div class="topbar">
-      <span class="topbar-title">DASHBOARD</span>
+      <span class="topbar-title">Dashboard</span>
       <div class="topbar-right">
-        <div class="topbar-icon-btn" title="Notifications">
-          🔔<span class="topbar-notif-dot"></span>
-        </div>
+        <div class="topbar-bell">🔔<span class="bell-dot"></span></div>
         <a th:href="@{/admin/anime/add}" class="btn btn-primary btn-sm">+ Add Anime</a>
       </div>
     </div>
 
     <div class="page-body">
 
-      <!-- Stats row -->
-      <div class="stats-row">
+      <!-- Hero Slider -->
+      <div class="hero-slider anim-in">
+        <div class="hero-track" id="heroTrack">
 
-        <div class="stat-card anim-in anim-d1">
-          <div class="stat-card-glow orange"></div>
-          <div class="stat-top">
-            <div class="stat-icon-wrap orange">👥</div>
-            <span class="stat-pill up">+12%</span>
+          <div class="hero-slide">
+            <img class="hero-slide-img"
+                 src="https://cdn.myanimelist.net/images/anime/1015/138006l.jpg"
+                 alt="Frieren">
+            <div class="hero-slide-grad"></div>
+            <div class="hero-slide-content">
+              <div class="hero-slide-genre">Fantasy · Adventure</div>
+              <div class="hero-slide-title">Sousou no Frieren</div>
+              <div class="hero-slide-meta">
+                <span class="hero-slide-rating">★ 9.38</span>
+                <span>28 Episodes</span>
+                <span>2023</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-num" th:text="${totalUsers}">0</div>
-          <div class="stat-label">Total Users</div>
+
+          <div class="hero-slide">
+            <img class="hero-slide-img"
+                 src="https://cdn.myanimelist.net/images/anime/1294/137413l.jpg"
+                 alt="Jujutsu Kaisen">
+            <div class="hero-slide-grad"></div>
+            <div class="hero-slide-content">
+              <div class="hero-slide-genre">Action · Supernatural</div>
+              <div class="hero-slide-title">Jujutsu Kaisen S2</div>
+              <div class="hero-slide-meta">
+                <span class="hero-slide-rating">★ 8.64</span>
+                <span>23 Episodes</span>
+                <span>2023</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-slide">
+            <img class="hero-slide-img"
+                 src="https://cdn.myanimelist.net/images/anime/1000/110531l.jpg"
+                 alt="Attack on Titan">
+            <div class="hero-slide-grad"></div>
+            <div class="hero-slide-content">
+              <div class="hero-slide-genre">Action · Dark Fantasy</div>
+              <div class="hero-slide-title">Attack on Titan Final</div>
+              <div class="hero-slide-meta">
+                <span class="hero-slide-rating">★ 9.05</span>
+                <span>87 Episodes</span>
+                <span>2013–2023</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-slide">
+            <img class="hero-slide-img"
+                 src="https://cdn.myanimelist.net/images/anime/1337/99013l.jpg"
+                 alt="Demon Slayer">
+            <div class="hero-slide-grad"></div>
+            <div class="hero-slide-content">
+              <div class="hero-slide-genre">Action · Historical</div>
+              <div class="hero-slide-title">Demon Slayer</div>
+              <div class="hero-slide-meta">
+                <span class="hero-slide-rating">★ 8.68</span>
+                <span>26 Episodes</span>
+                <span>2019</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="stat-card anim-in anim-d2">
-          <div class="stat-card-glow gold"></div>
-          <div class="stat-top">
-            <div class="stat-icon-wrap gold">✅</div>
-            <span class="stat-pill neu">7D</span>
-          </div>
-          <div class="stat-num" th:text="${activeUsers7d}">0</div>
-          <div class="stat-label">Active — 7 Days</div>
+        <div class="hero-dots" id="heroDots">
+          <div class="hero-dot active" onclick="goToSlide(0)"></div>
+          <div class="hero-dot" onclick="goToSlide(1)"></div>
+          <div class="hero-dot" onclick="goToSlide(2)"></div>
+          <div class="hero-dot" onclick="goToSlide(3)"></div>
         </div>
 
-        <div class="stat-card anim-in anim-d3">
-          <div class="stat-card-glow red"></div>
-          <div class="stat-top">
-            <div class="stat-icon-wrap red">📅</div>
-            <span class="stat-pill neu">30D</span>
-          </div>
-          <div class="stat-num" th:text="${activeUsers30d}">0</div>
-          <div class="stat-label">Active — 30 Days</div>
+        <div class="hero-arrows">
+          <div class="hero-arrow" onclick="prevSlide()">‹</div>
+          <div class="hero-arrow" onclick="nextSlide()">›</div>
         </div>
-
-        <div class="stat-card anim-in anim-d4">
-          <div class="stat-card-glow blue"></div>
-          <div class="stat-top">
-            <div class="stat-icon-wrap blue">🎬</div>
-            <span class="stat-pill up">+47</span>
-          </div>
-          <div class="stat-num" th:text="${totalAnime}">0</div>
-          <div class="stat-label">Total Anime</div>
-        </div>
-
       </div>
 
-      <!-- Bottom grid -->
-      <div class="panel-grid-2">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card c-sak anim-in anim-d1">
+          <span class="stat-badge up">+12%</span>
+          <span class="stat-glyph">👥</span>
+          <span class="stat-val" th:text="${totalUsers}">0</span>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card c-cyan anim-in anim-d2">
+          <span class="stat-badge neu">7D</span>
+          <span class="stat-glyph">✅</span>
+          <span class="stat-val" th:text="${activeUsers7d}">0</span>
+          <div class="stat-label">Active 7 Days</div>
+        </div>
+        <div class="stat-card c-gold anim-in anim-d3">
+          <span class="stat-badge neu">30D</span>
+          <span class="stat-glyph">📅</span>
+          <span class="stat-val" th:text="${activeUsers30d}">0</span>
+          <div class="stat-label">Active 30 Days</div>
+        </div>
+        <div class="stat-card c-vio anim-in anim-d4">
+          <span class="stat-badge up">+47</span>
+          <span class="stat-glyph">🎬</span>
+          <span class="stat-val" th:text="${totalAnime}">0</span>
+          <div class="stat-label">Total Anime</div>
+        </div>
+      </div>
 
-        <!-- Recent Users -->
+      <!-- Bottom panels -->
+      <div class="grid-2">
+
         <div class="panel anim-in anim-d5">
           <div class="panel-head">
             <span class="panel-title">Recent Users</span>
@@ -133,51 +195,67 @@
                   <td>
                     <div class="td-user">
                       <div class="td-avatar"
-                           style="background:rgba(255,107,0,0.15);color:var(--tx-ember);"
                            th:text="${#strings.substring(user.firstName != null ? user.firstName : user.username, 0, 2).toUpperCase()}">??</div>
-                      <div>
-                        <div class="td-user-name"
-                             th:text="${user.firstName != null ? user.firstName : user.username}">—</div>
-                      </div>
+                      <div class="td-user-name"
+                           th:text="${user.firstName != null ? user.firstName : user.username}">—</div>
                     </div>
                   </td>
                   <td class="td-id" th:text="'#' + ${user.userId}">—</td>
-                  <td style="color:var(--tx-muted);font-size:12px;"
+                  <td style="color:var(--tx-muted);font-size:11px;font-family:var(--font-mono);"
                       th:text="${#temporals.format(user.lastActive,'yyyy-MM-dd HH:mm')}">—</td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(recentUsers)}">
-                  <td colspan="3" style="color:var(--tx-muted);text-align:center;padding:24px;">No users yet</td>
+                  <td colspan="3" style="color:var(--tx-muted);text-align:center;padding:22px;">No users yet</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Featured Anime -->
         <div class="panel anim-in anim-d6">
           <div class="panel-head">
             <span class="panel-title">Featured Anime</span>
             <a th:href="@{/admin/anime}" class="btn btn-ghost btn-sm">View All →</a>
           </div>
           <div class="panel-body">
-            <p th:if="${featuredAnime.isEmpty()}" style="color:var(--tx-muted);font-size:13px;text-align:center;padding:16px 0;">
+            <p th:if="${featuredAnime.isEmpty()}"
+               style="color:var(--tx-muted);font-size:12px;text-align:center;padding:14px 0;">
               No featured anime yet
             </p>
             <div th:unless="${featuredAnime.isEmpty()}">
-              <div th:each="anime : ${featuredAnime}"
-                   style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,100,0,0.06);">
+              <div th:each="anime : ${featuredAnime}" class="featured-list-item">
                 <a th:href="@{/admin/anime/{id}/edit(id=${anime.animeId})}"
-                   style="font-size:13px;font-weight:600;color:var(--tx-primary);transition:color 0.2s;"
+                   class="featured-list-link"
                    th:text="${anime.title}">—</a>
-                <span class="badge badge-ember" th:text="'⭐ ' + ${anime.rating}">—</span>
+                <span class="badge badge-gold" th:text="'★ ' + ${anime.rating}">—</span>
               </div>
             </div>
           </div>
         </div>
 
       </div>
-    </div><!-- /page-body -->
-  </div><!-- /main-content -->
-</div><!-- /as-layout -->
+
+    </div>
+  </div>
+</div>
+
+<script>
+  let current = 0;
+  const total = 4;
+  const track = document.getElementById('heroTrack');
+  const dots = document.querySelectorAll('.hero-dot');
+
+  function goToSlide(n) {
+    current = n;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function nextSlide() { goToSlide((current + 1) % total); }
+  function prevSlide() { goToSlide((current - 1 + total) % total); }
+
+  setInterval(nextSlide, 5000);
+</script>
+
 </body>
 </html>
