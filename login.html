@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — AnimeSense Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="login-page">
+
+<div class="sakura-bg"></div>
+<div class="sakura-overlay"></div>
+
+<div class="login-box anim-in">
+
+  <div class="login-left">
+    <div>
+      <div class="login-brand-row">
+        <div class="login-brand-icon">🎌</div>
+        <div>
+          <div class="login-brand-name">AnimeSense</div>
+          <div class="login-brand-sub">Admin Nexus</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-headline">
+      <h2>Control the Anime Universe</h2>
+      <p>Manage titles, users, recommendations, and live broadcasts from one command center.</p>
+    </div>
+
+    <div class="login-stats">
+      <div>
+        <div class="login-stat-val">10K+</div>
+        <div class="login-stat-label">Titles</div>
+      </div>
+      <div>
+        <div class="login-stat-val">500K</div>
+        <div class="login-stat-label">Users</div>
+      </div>
+      <div>
+        <div class="login-stat-val">99.9%</div>
+        <div class="login-stat-label">Uptime</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-form-title">Sign In</div>
+    <div class="login-form-sub">Enter your admin credentials to continue</div>
+
+    <div th:if="${param.error}" class="alert alert-error">
+      <strong>Error:</strong> Invalid username or password. Please try again.
+    </div>
+    <div th:if="${param.logout}" class="alert alert-success">
+      You have been signed out successfully.
+    </div>
+
+    <form th:action="@{/admin/login}" method="post" id="loginForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-input" type="text" id="username" name="username"
+               placeholder="Enter username" required autofocus autocomplete="username"
+               minlength="1" maxlength="50">
+        <span class="form-error" id="usernameError"></span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" type="password" id="password" name="password"
+               placeholder="Enter password" required autocomplete="current-password"
+               minlength="1" maxlength="100">
+        <span class="form-error" id="passwordError"></span>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:6px;" id="submitBtn">
+        Access Dashboard →
+      </button>
+    </form>
+
+    <p class="login-forgot">
+      Need help? <a href="#" title="Contact support">Contact support</a>
+    </p>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    
+    if (!username) {
+      e.preventDefault();
+      document.getElementById('usernameError').textContent = 'Username is required';
+      return false;
+    }
+    
+    if (!password) {
+      e.preventDefault();
+      document.getElementById('passwordError').textContent = 'Password is required';
+      return false;
+    }
+    
+    document.getElementById('usernameError').textContent = '';
+    document.getElementById('passwordError').textContent = '';
+  });
+
+  document.getElementById('username').addEventListener('input', function() {
+    document.getElementById('usernameError').textContent = '';
+  });
+
+  document.getElementById('password').addEventListener('input', function() {
+    document.getElementById('passwordError').textContent = '';
+  });
+</script>
+
+</body>
+</html>
