@@ -1,5 +1,4 @@
 public class User {
-    // No existing comments should be here.
     private String username;
     private String email;
 
